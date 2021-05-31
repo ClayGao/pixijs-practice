@@ -217,3 +217,97 @@ function move(key) {
 ```
 
 如此，按下方向鍵之後，老背少幹老就會移動了
+
+## Example 3
+
+目前台灣遊戲以什麼框架製作比較多？
+
+Phaser，但是他的基底是用 PIXI 來做，就有點類似 Next 之於 React 的概念
+
+## PIXI - 遊戲循環
+
+讓我們接著製作吧，現在加入一個滑鼠監聽！
+
+什麼是遊戲循環？
+
+我們剛剛在畫面上，假設我現在使用監聽滑鼠位置，改變 `container` 的座標，這時候我們就需要做畫面重新渲染：
+
+```js
+el.addEventListener("mousemove", (evt) => {
+  app.ticker.add(() => {
+    container.x = evt.clientX;
+    container.y = evt.clientY;
+  });
+});
+```
+
+我們現在解釋一下幾個語法：
+
+### `container.interactive`
+
+讓使用者可以與 `container` 互動，非常重要的一個 method，預設為 `false`
+
+```js
+container.interactive = true;
+```
+
+### `container.buttonMode`
+
+預設為 `false`，如果要掛事件監聽，要改成 `true`，滑鼠移動上去之後會有 `pointer` 樣式。
+
+```js
+container.buttonMode = true;
+```
+
+## GUI 工具
+
+我們現在在 `index.html` 引入一個新套件：
+
+```html
+<script src="https://cdn.bootcdn.net/ajax/libs/dat-gui/0.7.7/dat.gui.min.js"></script>
+```
+
+這是一個 GUI 工具，不是 PIXI 專屬
+
+引入之後，我們 new 一個實體，並執行相關 method:
+
+```js
+/**
+ * Dat GUI
+ */
+
+const datGuiData = function () {
+  this.alpha = 1;
+  this.containerX = 0;
+  this.containerY = 0;
+  this.scaleX = 1;
+  this.scaleY = 1;
+};
+
+const datGuiTools = new datGuiData();
+const gui = new dat.GUI();
+gui.add(datGuiTools, "alpha", 0, 1);
+gui.add(datGuiTools, "containerX", 0, 512);
+gui.add(datGuiTools, "containerY", 0, 512);
+gui.add(datGuiTools, "scaleX", 0, 10);
+gui.add(datGuiTools, "scaleY", 0, 10);
+```
+
+`this` 後面是哪些屬性，`gui.add` 二個參數就要帶哪些屬性，第三個和第四個參數則是範圍
+
+這樣就掛載好了我們的 DatGUI Tool 了，我們可以再畫面上看到 Controls:
+
+![](./static/imgs/study/06.png)
+
+設定好之後，我們還得將其與 `container` 串接在一起，讓我們在控制面板調整數值時，這些數值會與 `container` 掛鉤：
+
+```js
+app.ticker.add(() => {
+  container.x = datGuiTools.containerX;
+  container.y = datGuiTools.containerY;
+  container.scale.x = datGuiTools.scaleX;
+  container.scale.y = datGuiTools.scaleY;
+});
+```
+
+這個工具可以幫助我們尋找定位點，這邊就不上圖了，但嘗試之後你會發現當你調整 Controls 的數值時，`container` 會跟著移動，如此我們就可以馬上知道當一個物件移動時，他當下的定位點會是多少，幫助我們順利開發。
