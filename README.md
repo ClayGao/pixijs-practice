@@ -311,3 +311,62 @@ app.ticker.add(() => {
 ```
 
 這個工具可以幫助我們尋找定位點，這邊就不上圖了，但嘗試之後你會發現當你調整 Controls 的數值時，`container` 會跟著移動，如此我們就可以馬上知道當一個物件移動時，他當下的定位點會是多少，幫助我們順利開發。
+
+## Example4
+
+首先，引入 [Stats.js](https://github.com/mrdoob/stats.js/)
+
+```html
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stats.js/r16/Stats.min.js"></script>
+```
+
+## FPS
+
+也就是所謂的「幀數」，一般來說預設是 60FPS，也就是每秒刷新 60 次，當次數達到這麼高的時候，由於人體視覺暫留的原因，所以會更有動畫感。
+
+FPS 如果過高，畫面則會有撕裂的感覺，如果過低，就會有一張一張翻頁的錯覺，兩種都不好。
+
+## 使用 stats
+
+我們一樣 new 一個實體出來，並將其渲染在我們的畫面上：
+
+```js
+const stats = new Stats();
+
+stats.showPanel(0);
+document.body.appendChild(stats.domElement);
+```
+
+可以看到出現了 FPS 的數據面板：
+
+![](./static/imgs/study/07.png)
+
+接著繼續：
+
+```js
+function animate() {
+  stats.begin();
+  stats.end();
+  requestAnimationFrame(animate);
+}
+
+requestAnimationFrame(animate);
+```
+
+關於 `requestAnimationFrame`，可以參考：https://ithelp.ithome.com.tw/articles/10186735，基本上是一個不斷重複呼叫自己的 method，達到動畫的效果，以此來測試我們的 stats 的運作
+
+現在畫面不斷更新，所以 FPS 也有了變動：
+
+![](./static/imgs/study/08.png)
+
+如果想調整 Panel 的位置，可以使用以下方法調整：
+
+```js
+stats.domElement.style.position = "absolute";
+stats.domElement.style.top = "0";
+stats.domElement.style.left = "0";
+```
+
+目前不確定是不是都要這麼麻煩，不過先記住這個方法。
+
+
