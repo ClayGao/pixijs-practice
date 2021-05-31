@@ -1,5 +1,9 @@
 # PixiJS 練習
 
+此份練習主要是此次「大神來六角」分享影片時順便學習並記錄的，所以以下筆記內容都是 Ray 大大的課程內容，並非個人杜撰。
+
+此份筆記僅為記錄與學習使用，特此聲明。
+
 ## Example1
 
 ## 先 new 一個 app
@@ -369,4 +373,47 @@ stats.domElement.style.left = "0";
 
 目前不確定是不是都要這麼麻煩，不過先記住這個方法。
 
-
+## Example 5
+
+我們現在來看看幾何圖形，如何製作幾何圖形呢？
+
+首先我們解構宣告屬性 `Graphics`，然後建立一個圓，再把他放入 `container` 中：
+
+```js
+const graphics1 = new Graphics();
+graphics1.lineStyle(5, 0x000000, 1);
+graphics1.drawCircle(0, 0, 50);
+
+container.addChild(graphics1);
+```
+
+![](./static/imgs/study/09.png)
+
+ 然後我們一樣來移動 container：
+
+```js
+container.x = 100;
+container.y = 100;
+```
+
+![](./static/imgs/study/10.png)
+
+我們另外來畫另一種圖形，這次使用到 `drawRoundedRect` 這個 method：
+
+```js
+const container2 = new Container();
+app.stage.addChild(container2);
+
+const graphics2 = new Graphics();
+graphics2.lineStyle(5, 0x000000, 1);
+graphics2.drawRoundedRect(0, 0, 90, 50, 15);
+
+container2.addChild(graphics2);
+
+container2.x = 200;
+container2.y = 200;
+```
+
+![11](./static/imgs/study/11.png)
+
+## 課程到此結束，剩下的可以參考 Ray 大的系列文：https://hsiangfeng.github.io/tags/PixiJS-V5-%E6%95%99%E5%AD%B8/
