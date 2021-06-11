@@ -417,3 +417,4 @@ container2.y = 200;
 ![11](./static/imgs/study/11.png)
 
 ## 課程到此結束，剩下的可以參考 Ray 大的系列文：https://hsiangfeng.github.io/tags/PixiJS-V5-%E6%95%99%E5%AD%B8/
+# pixijs-practice
